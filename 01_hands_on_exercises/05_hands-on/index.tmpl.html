@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Parse CSV to Template</title>
+</head>
+
+<body>
+  <table border="1">
+    <tr>
+      <td>Date</td>
+      <td>Open</td>
+      <td>High</td>
+      <td>Low</td>
+      <td>Close</td>
+      <td>Volume</td>
+      <td>Adjacent(?) Volume</td>
+    </tr>
+    {{range .}}
+    <tr>
+      <td>{{humanDate .Date}}</td>
+      <td>{{.Open}}</td>
+      <td>{{.High}}</td>
+      <td>{{.Low}}</td>
+      <td>{{.Close}}</td>
+      <td>{{.Volume}}</td>
+      <td>{{.AdjClose}}</td>
+    </tr>
+    {{end}}
+  </table>
+</body>
+
+</html>
