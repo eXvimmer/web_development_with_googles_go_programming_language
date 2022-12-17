@@ -19,7 +19,11 @@ type hotel struct {
 	Address string
 	City    string
 	Zip     string
-	Region  Region
+}
+
+type region struct {
+	Name   Region
+	Hotels []hotel
 }
 
 var tmpl *template.Template
@@ -29,27 +33,57 @@ func init() {
 }
 
 func main() {
-	hotels := []hotel{
+	hotels := []region{
 		{
-			Name:    "Hotel California",
-			Address: "42 Sunset Boulevard",
-			City:    "Los Angeles",
-			Zip:     "95612",
-			Region:  Southern,
+			Name: Southern,
+			Hotels: []hotel{
+				{
+					Name:    "Hotel California",
+					Address: "42 Sunset Boulevard",
+					City:    "Los Angeles",
+					Zip:     "95612",
+				},
+				{
+					Name:    "H",
+					Address: "4",
+					City:    "L",
+					Zip:     "95612",
+				},
+			},
 		},
 		{
-			Name:    "Hotel Babylon",
-			Address: "13 somewhere close",
-			City:    "Los Angeles",
-			Zip:     "95613",
-			Region:  Northern,
+			Name: Northern,
+			Hotels: []hotel{
+				{
+					Name:    "Hotel California",
+					Address: "42 Sunset Boulevard",
+					City:    "Los Angeles",
+					Zip:     "95612",
+				},
+				{
+					Name:    "H",
+					Address: "4",
+					City:    "L",
+					Zip:     "95612",
+				},
+			},
 		},
 		{
-			Name:    "Hotel Awesome",
-			Address: "13 somewhere far far away",
-			City:    "Los Angeles",
-			Zip:     "95614",
-			Region:  Central,
+			Name: Central,
+			Hotels: []hotel{
+				{
+					Name:    "Hotel California",
+					Address: "42 Sunset Boulevard",
+					City:    "Los Angeles",
+					Zip:     "95612",
+				},
+				{
+					Name:    "H",
+					Address: "4",
+					City:    "L",
+					Zip:     "95612",
+				},
+			},
 		},
 	}
 

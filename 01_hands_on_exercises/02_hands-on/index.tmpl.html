@@ -15,16 +15,19 @@
       <td>Address</td>
       <td>City</td>
       <td>Zip</td>
-      <td>Region</td>
     </tr>
     {{range .}}
+    <tr>
+      <th colspan="4">{{.Name}}</th>
+    </tr>
+    {{range .Hotels}}
     <tr>
       <td>{{.Name}}</td>
       <td>{{.Address}}</td>
       <td>{{.City}}</td>
       <td>{{.Zip}}</td>
-      <td>{{.Region}}</td>
     </tr>
+    {{end}}
     {{end}}
   </table>
 </body>
