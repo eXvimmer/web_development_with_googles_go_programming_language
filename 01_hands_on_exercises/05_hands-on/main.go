@@ -1,5 +1,7 @@
 package main
 
+// https://go.dev/play/p/DcM4zQ2Rzpk
+
 import (
 	"encoding/csv"
 	"html/template"
