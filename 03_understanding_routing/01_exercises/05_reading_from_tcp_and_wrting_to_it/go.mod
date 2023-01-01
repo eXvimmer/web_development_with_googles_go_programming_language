@@ -1,0 +1,3 @@
+module reading_from_tcp_connection_and_writing_to_it
+
+go 1.19
