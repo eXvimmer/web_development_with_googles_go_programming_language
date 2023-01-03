@@ -14,16 +14,16 @@ func main() {
 }
 
 func index(w http.ResponseWriter, r *http.Request) {
-	c, err := r.Cookie("times")
 	var v int
+	c, err := r.Cookie("times")
 	if err != nil {
-		initilizeVisitTimesCookie(w)
+		c = initilizeVisitTimesCookie(w)
 	} else {
 		v, err = strconv.Atoi(c.Value)
 		if err != nil {
-			initilizeVisitTimesCookie(w)
+			c = initilizeVisitTimesCookie(w)
 		} else {
-			incrementVisitTimesCookie(w, v)
+			c = incrementVisitTimesCookie(w, v)
 		}
 	}
 
@@ -33,14 +33,15 @@ func index(w http.ResponseWriter, r *http.Request) {
 	} else {
 		msg = fmt.Sprintf("You've visited this page %d times", v+1)
 	}
+	http.SetCookie(w, c)
 	w.WriteHeader(http.StatusOK)
 	w.Write([]byte(msg))
 }
 
-func initilizeVisitTimesCookie(w http.ResponseWriter) {
-	http.SetCookie(w, &http.Cookie{Name: "times", Value: "1"})
+func initilizeVisitTimesCookie(w http.ResponseWriter) *http.Cookie {
+	return &http.Cookie{Name: "times", Value: "1"}
 }
 
-func incrementVisitTimesCookie(w http.ResponseWriter, times int) {
-	http.SetCookie(w, &http.Cookie{Name: "times", Value: fmt.Sprintf("%d", times+1)})
+func incrementVisitTimesCookie(w http.ResponseWriter, times int) *http.Cookie {
+	return &http.Cookie{Name: "times", Value: fmt.Sprintf("%d", times+1)}
 }
