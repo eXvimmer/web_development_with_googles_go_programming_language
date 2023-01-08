@@ -8,7 +8,12 @@
 
 <body>
   <h1>Hello from index</h1>
-  <p>Here's your cookie: {{.}}</p>
+  <h2>Cookie values:</h2>
+  <ul>
+    {{range .}}
+    <li>{{.}}</li>
+    {{end}}
+  </ul>
 </body>
 
 </html>

@@ -3,6 +3,7 @@ package main
 import (
 	"html/template"
 	"net/http"
+	"strings"
 
 	"github.com/google/uuid"
 )
@@ -21,7 +22,9 @@ func main() {
 
 func index(w http.ResponseWriter, r *http.Request) {
 	c := getCookie(w, r)
-	tpl.ExecuteTemplate(w, "index.tmpl.html", c.Value)
+	c = appendValue(w, c)
+	data := strings.Split(c.Value, "|")
+	tpl.ExecuteTemplate(w, "index.tmpl.html", data)
 }
 
 func getCookie(w http.ResponseWriter, r *http.Request) *http.Cookie {
@@ -30,5 +33,24 @@ func getCookie(w http.ResponseWriter, r *http.Request) *http.Cookie {
 		c = &http.Cookie{Name: "session", Value: uuid.New().String()}
 		http.SetCookie(w, c)
 	}
+	return c
+}
+
+func appendValue(w http.ResponseWriter, c *http.Cookie) *http.Cookie {
+	p1 := "me.jpg"
+	p2 := "cat.jpg"
+	p3 := "dog.jpg"
+	s := c.Value
+	if !strings.Contains(s, p1) {
+		s += "|" + p1
+	}
+	if !strings.Contains(s, p2) {
+		s += "|" + p2
+	}
+	if !strings.Contains(s, p3) {
+		s += "|" + p3
+	}
+	c.Value = s
+	http.SetCookie(w, c)
 	return c
 }
