@@ -1,8 +1,13 @@
 package main
 
 import (
+	"crypto/sha1"
+	"fmt"
 	"html/template"
+	"io"
 	"net/http"
+	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/google/uuid"
@@ -22,7 +27,31 @@ func main() {
 
 func index(w http.ResponseWriter, r *http.Request) {
 	c := getCookie(w, r)
-	c = appendValue(w, c)
+	if r.Method == http.MethodPost {
+		mf, fh, err := r.FormFile("pic")
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer mf.Close()
+		ext := strings.Split(fh.Filename, ".")[1]
+		h := sha1.New()
+		io.Copy(h, mf)
+		fname := fmt.Sprintf("%x", h.Sum(nil)) + "." + ext
+		wd, err := os.Getwd()
+		if err != nil {
+			fmt.Println(err)
+		}
+		path := filepath.Join(wd, "public", "pics", fname)
+		// TODO: don't save a new file if the file (sha1/hash) already exists
+		nf, err := os.Create(path)
+		if err != nil {
+			fmt.Println(err)
+		}
+		defer nf.Close()
+		mf.Seek(0, 0)
+		io.Copy(nf, mf)
+		c = appendValue(w, c, fname)
+	}
 	data := strings.Split(c.Value, "|")
 	tpl.ExecuteTemplate(w, "index.tmpl.html", data)
 }
@@ -36,19 +65,11 @@ func getCookie(w http.ResponseWriter, r *http.Request) *http.Cookie {
 	return c
 }
 
-func appendValue(w http.ResponseWriter, c *http.Cookie) *http.Cookie {
-	p1 := "me.jpg"
-	p2 := "cat.jpg"
-	p3 := "dog.jpg"
+func appendValue(
+	w http.ResponseWriter, c *http.Cookie, fname string) *http.Cookie {
 	s := c.Value
-	if !strings.Contains(s, p1) {
-		s += "|" + p1
-	}
-	if !strings.Contains(s, p2) {
-		s += "|" + p2
-	}
-	if !strings.Contains(s, p3) {
-		s += "|" + p3
+	if !strings.Contains(s, fname) {
+		s += "|" + fname
 	}
 	c.Value = s
 	http.SetCookie(w, c)
