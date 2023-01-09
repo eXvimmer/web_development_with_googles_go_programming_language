@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercise</title>
+  </head>
+  <body>
+    <script>
+      const data = [
+        { description: "StatusOK", code: 200 },
+        { description: "StatusMovedPermanently", code: 301 },
+        { description: "StatusFound", code: 302 },
+        { description: "StatusSeeOther", code: 303 },
+        { description: "StatusTemporaryRedirect", code: 307 },
+        { description: "StatusBadRequest", code: 400 },
+        { description: "StatusUnauthorized", code: 401 },
+        { description: "StatusPaymentRequired", code: 402 },
+        { description: "StatusForbidden", code: 403 },
+        { description: "StatusNotFound", code: 404 },
+        { description: "StatusMethodNotAllowed", code: 405 },
+        { description: "StatusTeapot", code: 418 },
+        { description: "StatusInternalServerError", code: 500 },
+      ];
+      document.write(`<pre>${JSON.stringify(data, null, 2)}</pre>`);
+    </script>
+  </body>
+</html>
